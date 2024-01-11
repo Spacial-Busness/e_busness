@@ -83,7 +83,7 @@ DATABASES = {
 }
 
 # settings.py
-AUTH_USER_MODEL = 'busness_e_commerce_app.CustomUser'
+# AUTH_USER_MODEL = 'busness_e_commerce_app.Account'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -121,6 +121,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / "media" 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

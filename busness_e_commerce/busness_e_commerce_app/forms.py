@@ -1,16 +1,31 @@
-# busness_e_commerce_app/forms.py
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser  # Make sure to import your CustomUser model
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
-class UserForm(UserCreationForm):
-    address_id = forms.IntegerField()
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    phone_number = forms.CharField()
-    company_name = forms.CharField()
-    user_role = forms.IntegerField()
+class RegistrationForm(UserCreationForm):
+    address_id = forms.IntegerField(required=False)
+    phone_number = forms.CharField(max_length=15, required=False)
+    company_name = forms.CharField(max_length=100, required=False)
+    user_role = forms.IntegerField(initial=2, required=False)
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=30, required=False)
+    gender = forms.CharField(max_length=6, widget=forms.Select(choices=[('Male', 'Male'), ('Female', 'Female')]))
+    profile_image = forms.ImageField(required=False,)
+    
 
     class Meta:
-        model = CustomUser
-        fields = ('address_id', 'first_name', 'last_name','username', 'email', 'phone_number', 'company_name', 'user_role', 'password1', 'password2')
+        model = User
+        fields = ['username', 'email', 'password1', 'password2', 'address_id', 'phone_number', 'company_name', 'user_role', 'first_name', 'last_name', 'gender','profile_image']
+        
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise ValidationError('This email address is already registered.')
+        return email
+    
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise ValidationError('This username is already taken.')
+        return username
