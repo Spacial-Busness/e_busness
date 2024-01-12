@@ -32,7 +32,11 @@
             <div id="messages-container">
                 {% for message in messages %}
                     <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
-                        {{ message }}
+                        {% if message.tags == 'error' %}
+                            <strong class="text-danger">Error: {{ message }}</strong>
+                        {% else %}
+                            {{ message }}
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
@@ -47,7 +51,7 @@
                 });
             </script>
         {% endif %}
-        
+         
 
             {% if user.is_authenticated %}
             <div class="dropdown z-3 d-flex flex-row">
@@ -58,7 +62,7 @@
                     <img src="{{ user.account.profile_image.url }}" class="rounded-circle" height="30" width="30"
                         alt="User Image">
                     {% else %}
-                    <img src="{% static 'path/to/default/image.jpg' %}" class="rounded-circle" height="30"
+                    <img src="{% static 'image/2.jpg' %}" class="rounded-circle" height="30"
                         width="30" alt="Default Image">
                     {% endif %}
                 </a>
@@ -84,7 +88,6 @@
     </div>
     <nav class="navbar navbar-expand-lg bg-white sticky-top navbar-light shadow-sm z-2">
         <div>
-            <a href="{% url 'index' %}" class="text-reset">
                 <img src="{% static 'image/bird_2.png' %}" height="40" width="40" class="rounded-circle">
             </a>
         </div>
@@ -118,7 +121,7 @@
                         <a class="nav-link mx-2 text-uppercase active" aria-current="page" href="#">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="{% url 'product' %}">Product</a>
+                        <a class="nav-link mx-2 text-uppercase" href="#">Product</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mx-2 text-uppercase" href="#">Category</a>
